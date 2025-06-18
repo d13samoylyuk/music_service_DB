@@ -1,40 +1,52 @@
-create table if not exists Tracks (
-	trackID SERIAL primary key,
-	name VARCHAR(255) not null,
-	albumID INTEGER not null references Albums(albumID)
-);
-
-create table if not exists Authors (
-	authorID SERIAL primary key,
-	name VARCHAR(255) not null
-);
-
-create table if not exists Albums (
+create table if not exists albums (
 	albumID SERIAL primary key,
-	name VARCHAR(255) not null
+	release_date DATE not null,
+	name VARCHAR(155) not null,
+	check (release_date >= '1800-01-01')
 );
 
-create table if not exists Genres (
+create table if not exists tracks (
+	trackID SERIAL primary key,
+	name VARCHAR(155) not null,
+	duration_seconds INTEGER not null,
+	release_date DATE not null,
+	albumID INTEGER not null references albums(albumID),
+	check (duration_seconds between 3 and 3600),
+	check (release_date >= '1800-01-01')
+);
+
+create table if not exists authors (
+	authorID SERIAL primary key,
+	name VARCHAR(120) not null
+);
+
+create table if not exists genres (
 	genreID SERIAL primary key,
-	name VARCHAR(50) not null
+	name VARCHAR(50) not null,
+	unique (name)
 );
 
-create table if not exists Collections (
+create table if not exists collections (
 	collectionID SERIAL primary key,
-	name VARCHAR(255) not null
+	creation_date DATE not null,
+	name VARCHAR(155) not null,
+	check (creation_date >= '2025-01-01')
 );
 
-create table if not exists Albums_authors (
-	albumID INTEGER not null references Albums(albumID),
-	authorID INTEGER not null references Authors(authorID)
+create table if not exists albums_author (
+	albumID INTEGER not null references albums(albumID),
+	authorID INTEGER not null references authors(authorID),
+	primary key (albumID, authorID)
 );
 
-create table if not exists GenreAuthor (
-	genreID INTEGER not null references Genres(genreID),
-	authorID INTEGER not null references Authors(authorID)
+create table if not exists genre_author (
+	genreID INTEGER not null references genres(genreID),
+	authorID INTEGER not null references authors(authorID),
+	primary key (genreID, authorID)
 );
 
-create table if not exists TrackCollection (
-	TrackID INTEGER not null references Tracks(trackID),
-	CollectionID INTEGER not null references Collections(collectionID)
+create table if not exists track_collection (
+	TrackID INTEGER not null references tracks(trackID),
+	CollectionID INTEGER not null references collections(collectionID),
+	primary key (TrackID, CollectionID)
 );
