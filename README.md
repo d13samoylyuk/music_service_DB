@@ -1,2 +1,2 @@
-# The Music service's database scheme:
+# The Music Service's database scheme:
 ![scheme](DBMSNetology.drawio.png)
