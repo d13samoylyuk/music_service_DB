@@ -17,7 +17,8 @@ create table if not exists tracks (
 
 create table if not exists authors (
 	authorID SERIAL primary key,
-	name VARCHAR(120) not null
+	name VARCHAR(120) not null,
+	unique (name)
 );
 
 create table if not exists genres (
