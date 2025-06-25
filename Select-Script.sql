@@ -14,8 +14,7 @@ select name, duration_seconds
 -- 3. collections from 2018-2020
 select name
   from collections
- where creation_date >= '2018-01-01'
-   and creation_date < '2021-01-01'
+ where creation_date between '2018-01-01' and '2021-01-01'
  order by creation_date asc;
 
 -- 4. short names
@@ -23,10 +22,11 @@ select name
   from authors
  where array_length(string_to_array(trim(name), ' '), 1) = 1;
 
--- 5. %My%
+-- 5. my in it
 select name
   from tracks
- where name like '%My%';
+ where string_to_array(lower(name), ' ')
+       && array['my', 'мое', 'моя', 'мой', 'мои'];
 
 
 -- EXC N3
@@ -38,13 +38,11 @@ select name, count(name)
  group by g.name
  
 -- 2. tracks in 2019-2020's albums 
- select t.name as track_name
+ select count(t.name) as track_name
    from tracks as t
         join albums as a
         on a.albumid = t.albumid
-  where a.release_date >= '2019-01-01'
-        and a.release_date < '2021-01-01'
-  group by track_name;
+  where a.release_date between '2019-01-01' and '2021-01-01';
 
 -- 3. avarage songs' duration per album
 select a.name, avg(duration_seconds) as ds
@@ -52,17 +50,20 @@ select a.name, avg(duration_seconds) as ds
        left join albums as a
        on a.albumid = tracks.albumid
  group by a.name
+ order by ds desc
 
 -- 4. artists with off-2020 albums
-select authors.name as author_name
+select name
   from authors
-       join albums_author as aa
-       on aa.authorid = authors.authorid
-       join albums as al
-       on al.albumid = aa.albumid
- where al.release_date not between '2020-01-01' and '2021-01-01'
- group by author_name;
-
+ where name not in (
+	   select authors.name as author_name
+	     from authors
+	          join albums_author as aa
+	          on aa.authorid = authors.authorid
+	          join albums as al
+	          on al.albumid = aa.albumid
+		where al.release_date between '2020-01-01' and '2021-01-01'
+	 );
 
 -- 5. Slayyyter in collections
 select c.name

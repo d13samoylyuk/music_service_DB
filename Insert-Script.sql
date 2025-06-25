@@ -5,7 +5,8 @@ values ('2023-09-22', 'STARFUCKER (Deluxe)'),
        ('2021-11-12', 'Red (Taylor''s Version)'),
        ('2020-03-27', 'Future Nostalgia'),
        ('2019-04-07', 'Fluids'),
-       ('2015-09-18', 'Honeymoon');
+       ('2015-09-18', 'Honeymoon'),
+       ('2020-10-23', 'SHE');
 
 -- TRACKS
 insert into tracks(name, duration_seconds, release_date, albumid)
@@ -15,7 +16,8 @@ values ('I Love Hollywood!', 184, '2023-09-22', 1),
        ('Physical', 193, '2020-01-31', 3), -- 4
        ('Fluids', 152, '2019-04-07', 4),
        ('Art Deco', 295, '2015-09-18', 5),
-       ('My Body', 221, '2023-09-22', 1); -- 7
+       ('My Body', 221, '2023-09-22', 1), -- 7
+       ('With Myself', 202, '2020-09-01', 6);
 
 -- COLLECTIONS
 insert into collections(creation_date, name)
@@ -28,13 +30,13 @@ values ('2018-11-15', 'Light Rush'),
 insert into track_collection(trackid, collectionid)
 values (6, 1),
        (4, 2), (5, 2),
-       (6, 3), (5, 3), (4, 3), (3, 3),
+       (6, 3), (5, 3), (4, 3), (3, 3), (8, 3),
        (1, 4), (5, 4);
 
 -- ARTISTS ("Authors"..)
 insert into authors(name)
 values ('Slayyyter'), ('Taylor Swift'), ('Dua Lipa'),
-       ('Michael Medrano'), ('Lana Del Ray');
+       ('Michael Medrano'), ('Lana Del Ray'), ('Winona Oak');
 
 -- GENRES
 insert into genres("name")
@@ -55,10 +57,11 @@ values (1, 1), (2, 1),
        (2, 2), (3, 2), (4, 2), (5, 2),
        (2, 3), (6, 3),
        (1, 4), (2, 4), (7, 4),
-       (5, 5), (8, 5), (9, 5);
+       (5, 5), (8, 5), (9, 5),
+       (9, 6), (8, 6);
 
 -- ALBUM_AUTHOR
 insert into albums_author(albumid, authorid)
-values (1, 1), (2, 2), (3, 3), (4, 4), (5, 5)
+values (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)
        
        
